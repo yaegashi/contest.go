@@ -1,0 +1,3 @@
+github.com/pkg/diff v0.0.0-20190930165518-531926345625 h1:b5m9ubdpxvfhiJnF64/W1rUTSUOzKHipjy5wOWsZCBM=
+github.com/pkg/diff v0.0.0-20190930165518-531926345625/go.mod h1:kFj35MyHn14a6pIgWhm46KVjJr5CHys3eEYxkuKD1EI=
+github.com/sergi/go-diff v1.0.0/go.mod h1:0CfEIISq7TuYL3j771MWULgwwjU+GofnZX9QAmXWZgo=
