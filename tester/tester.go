@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -16,6 +17,17 @@ import (
 
 var Delimiter = "--"
 
+func splitLines(s string) []string {
+	t := strings.SplitAfter(s, "\n")
+	if t[len(t)-1] == "" {
+		t = t[:len(t)-1]
+	}
+	for j := range t {
+		t[j] = strings.TrimRight(t[j], "\r\n")
+	}
+	return t
+}
+
 func Run(t *testing.T, pattern string, solve func(in io.Reader, out io.Writer) error) {
 	files, err := filepath.Glob(pattern)
 	if err != nil {
@@ -23,31 +35,44 @@ func Run(t *testing.T, pattern string, solve func(in io.Reader, out io.Writer) e
 	}
 	for i, file := range files {
 		t.Run(fmt.Sprintf("%d:%s", i, file), func(t *testing.T) {
-			pass := 0
 			input := ""
 			want := []string{}
-			f, err := os.Open(file)
-			if err != nil {
-				t.Fatal(err)
-			}
-			defer f.Close()
-			scanner := bufio.NewScanner(f)
-			for scanner.Scan() {
-				text := strings.TrimSpace(scanner.Text())
-				if text == Delimiter {
-					pass++
-					continue
+			if strings.HasSuffix(file, ".in.txt") {
+				inBytes, err := ioutil.ReadFile(file)
+				if err != nil {
+					t.Fatal(err)
 				}
-				switch pass {
-				case 0:
-					input += text + "\n"
-				case 1:
-					want = append(want, text)
+				input = string(inBytes)
+				outBytes, err := ioutil.ReadFile(file[:len(file)-7] + ".out.txt")
+				if err != nil {
+					t.Fatal(err)
 				}
-			}
-			err = scanner.Err()
-			if err != nil {
-				t.Fatal(err)
+				want = splitLines(string(outBytes))
+			} else {
+				pass := 0
+				f, err := os.Open(file)
+				if err != nil {
+					t.Fatal(err)
+				}
+				defer f.Close()
+				scanner := bufio.NewScanner(f)
+				for scanner.Scan() {
+					text := strings.TrimSpace(scanner.Text())
+					if text == Delimiter {
+						pass++
+						continue
+					}
+					switch pass {
+					case 0:
+						input += text + "\n"
+					case 1:
+						want = append(want, text)
+					}
+				}
+				err = scanner.Err()
+				if err != nil {
+					t.Fatal(err)
+				}
 			}
 			inBuf := bytes.NewBufferString(input)
 			outBuf := &bytes.Buffer{}
@@ -55,13 +80,7 @@ func Run(t *testing.T, pattern string, solve func(in io.Reader, out io.Writer) e
 			if err != nil {
 				t.Error(err)
 			}
-			got := strings.SplitAfter(outBuf.String(), "\n")
-			if got[len(got)-1] == "" {
-				got = got[:len(got)-1]
-			}
-			for j := range got {
-				got[j] = strings.TrimRight(got[j], "\r\n")
-			}
+			got := splitLines(outBuf.String())
 			ab := diff.Strings(want, got)
 			e := diff.Myers(context.Background(), ab)
 			if !e.IsIdentity() {
