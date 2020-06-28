@@ -33,15 +33,15 @@ $ go mod init solutions
 go: creating new go.mod: module solutions
 ```
 
-You can prepare a generic solution folder
-by running `contest-cli` with a folder name:
+You can prepare a generic solution dir
+by running `contest-cli new` with a dir name:
 
 ```console
-$ contest-cli foo
-2020/06/18 00:27:30 I: Created foo/main.go
-2020/06/18 00:27:30 I: Created foo/main_test.go
-2020/06/18 00:27:30 I: Created foo/sample1.in.txt
-2020/06/18 00:27:31 I: Created foo/sample1.out.txt
+$ contest-cli new foo
+2020/06/28 16:20:46 I: Created foo/main.go
+2020/06/28 16:20:46 I: Created foo/main_test.go
+2020/06/28 16:20:46 I: Created foo/sample1.in.txt
+2020/06/28 16:20:46 I: Created foo/sample1.out.txt
 ```
 
 You are ready to run `go test` with the `sample1` test case:
@@ -58,47 +58,48 @@ PASS
 ok      solutions/foo   1.319s
 ```
 
-You can prepare solution folders for AtCoder contests
-by passing an URL of them:
+You can prepare solution dirs for AtCoder contests
+by `contest-cli atcoder new`:
 ```console
-$ contest-cli https://atcoder.jp/contests/abc069
-2020/06/18 01:16:01 I: Created abc069/a1/main.go
-2020/06/18 01:16:01 I: Created abc069/a1/main_test.go
-2020/06/18 01:16:01 I: Created abc069/a1/sample1.in.txt
-2020/06/18 01:16:01 I: Created abc069/a1/sample1.out.txt
-2020/06/18 01:16:01 I: Created abc069/a1/sample2.in.txt
-2020/06/18 01:16:01 I: Created abc069/a1/sample2.out.txt
-2020/06/18 01:16:01 I: Created abc069/b1/main.go
-2020/06/18 01:16:01 I: Created abc069/b1/main_test.go
-2020/06/18 01:16:01 I: Created abc069/b1/sample1.in.txt
-2020/06/18 01:16:01 I: Created abc069/b1/sample1.out.txt
-2020/06/18 01:16:01 I: Created abc069/b1/sample2.in.txt
-2020/06/18 01:16:01 I: Created abc069/b1/sample2.out.txt
-2020/06/18 01:16:01 I: Created abc069/b1/sample3.in.txt
-2020/06/18 01:16:01 I: Created abc069/b1/sample3.out.txt
-2020/06/18 01:16:01 I: Created abc069/c1/main.go
-2020/06/18 01:16:01 I: Created abc069/c1/main_test.go
-2020/06/18 01:16:01 I: Created abc069/c1/sample1.in.txt
-2020/06/18 01:16:01 I: Created abc069/c1/sample1.out.txt
-2020/06/18 01:16:01 I: Created abc069/c1/sample2.in.txt
-2020/06/18 01:16:01 I: Created abc069/c1/sample2.out.txt
-2020/06/18 01:16:01 I: Created abc069/c1/sample3.in.txt
-2020/06/18 01:16:01 I: Created abc069/c1/sample3.out.txt
-2020/06/18 01:16:01 I: Created abc069/c1/sample4.in.txt
-2020/06/18 01:16:01 I: Created abc069/c1/sample4.out.txt
-2020/06/18 01:16:01 I: Created abc069/c1/sample5.in.txt
-2020/06/18 01:16:01 I: Created abc069/c1/sample5.out.txt
-2020/06/18 01:16:01 I: Created abc069/d1/main.go
-2020/06/18 01:16:01 I: Created abc069/d1/main_test.go
-2020/06/18 01:16:01 I: Created abc069/d1/sample1.in.txt
-2020/06/18 01:16:01 I: Created abc069/d1/sample1.out.txt
-2020/06/18 01:16:01 I: Created abc069/d1/sample2.in.txt
-2020/06/18 01:16:01 I: Created abc069/d1/sample2.out.txt
-2020/06/18 01:16:01 I: Created abc069/d1/sample3.in.txt
-2020/06/18 01:16:01 I: Created abc069/d1/sample3.out.txt
+$ contest-cli atcoder new abc069
+2020/06/28 16:24:53 I: Fetching contest abc069 into abc069
+2020/06/28 16:24:53 I: Created abc069/a/main.go
+2020/06/28 16:24:53 I: Created abc069/a/main_test.go
+2020/06/28 16:24:53 I: Created abc069/a/sample1.in.txt
+2020/06/28 16:24:53 I: Created abc069/a/sample1.out.txt
+2020/06/28 16:24:53 I: Created abc069/a/sample2.in.txt
+2020/06/28 16:24:53 I: Created abc069/a/sample2.out.txt
+2020/06/28 16:24:53 I: Created abc069/b/main.go
+2020/06/28 16:24:53 I: Created abc069/b/main_test.go
+2020/06/28 16:24:53 I: Created abc069/b/sample1.in.txt
+2020/06/28 16:24:53 I: Created abc069/b/sample1.out.txt
+2020/06/28 16:24:53 I: Created abc069/b/sample2.in.txt
+2020/06/28 16:24:53 I: Created abc069/b/sample2.out.txt
+2020/06/28 16:24:53 I: Created abc069/b/sample3.in.txt
+2020/06/28 16:24:53 I: Created abc069/b/sample3.out.txt
+2020/06/28 16:24:53 I: Created abc069/c/main.go
+2020/06/28 16:24:53 I: Created abc069/c/main_test.go
+2020/06/28 16:24:53 I: Created abc069/c/sample1.in.txt
+2020/06/28 16:24:53 I: Created abc069/c/sample1.out.txt
+2020/06/28 16:24:53 I: Created abc069/c/sample2.in.txt
+2020/06/28 16:24:53 I: Created abc069/c/sample2.out.txt
+2020/06/28 16:24:53 I: Created abc069/c/sample3.in.txt
+2020/06/28 16:24:53 I: Created abc069/c/sample3.out.txt
+2020/06/28 16:24:53 I: Created abc069/c/sample4.in.txt
+2020/06/28 16:24:53 I: Created abc069/c/sample4.out.txt
+2020/06/28 16:24:53 I: Created abc069/c/sample5.in.txt
+2020/06/28 16:24:53 I: Created abc069/c/sample5.out.txt
+2020/06/28 16:24:54 I: Created abc069/d/main.go
+2020/06/28 16:24:54 I: Created abc069/d/main_test.go
+2020/06/28 16:24:54 I: Created abc069/d/sample1.in.txt
+2020/06/28 16:24:54 I: Created abc069/d/sample1.out.txt
+2020/06/28 16:24:54 I: Created abc069/d/sample2.in.txt
+2020/06/28 16:24:54 I: Created abc069/d/sample2.out.txt
+2020/06/28 16:24:54 I: Created abc069/d/sample3.in.txt
+2020/06/28 16:24:54 I: Created abc069/d/sample3.out.txt
 ```
 
-The example above shows it creates 4 solution folder
+The example above shows it creates 4 solution dirs
 for [AtCoder Beginner Contest 069](https://atcoder.jp/contests/abc069)
 with solution templates and test cases.
 Example solutions with them can be found at
@@ -107,7 +108,7 @@ Example solutions with them can be found at
 For [ABC069 Problem D](https://atcoder.jp/contests/abc069/tasks/arc080_b),
 you cannot test your solution with contest.go
 because the problem accepts multiple possible answers.
-Currently contest.go supports no custom judge. 
+Currently contest.go supports no custom judge.
 
 ```console
 $ go test -v .
@@ -138,7 +139,7 @@ $ go test -v .
     --- FAIL: TestContest/1:sample2.in.txt (0.00s)
     --- PASS: TestContest/2:sample3.in.txt (0.00s)
 FAIL
-FAIL    github.com/yaegashi/diligence.go/atcoder/abc069/d1      0.035s
+FAIL    github.com/yaegashi/diligence.go/atcoder/abc069/d       0.207s
 FAIL
 ```
 
