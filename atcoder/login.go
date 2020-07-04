@@ -19,13 +19,14 @@ func (cli *Client) Login(username string, password string) error {
 	}
 	defer res.Body.Close()
 	if res.StatusCode != http.StatusOK {
-		return fmt.Errorf("Failed to get login: %w", err)
+		return fmt.Errorf("Failed to get login: %s", res.Status)
 	}
 
 	doc, err := goquery.NewDocumentFromReader(res.Body)
 	if err != nil {
 		return err
 	}
+
 	csrfToken := ""
 	doc.Find("input").EachWithBreak(func(i int, s *goquery.Selection) bool {
 		if name, ok := s.Attr("name"); ok && name == "csrf_token" {

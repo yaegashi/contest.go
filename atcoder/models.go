@@ -9,14 +9,12 @@ const (
 type Contest struct {
 	ID    string
 	URL   string
-	Title string
 	Tasks []*Task
 }
 
 type Task struct {
 	ID        string
 	URL       string
-	Title     string
 	Testcases []*Testcase
 }
 
