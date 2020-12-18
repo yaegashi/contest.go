@@ -12,9 +12,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/pkg/diff"
+	"github.com/pkg/diff/myers"
+	"github.com/pkg/diff/write"
 )
 
+// Delimiter is an input/output delimiter line in single text file
 var Delimiter = "--"
 
 func splitLines(s string) []string {
@@ -28,6 +30,18 @@ func splitLines(s string) []string {
 	return t
 }
 
+// pair is pair of string slices that implements myers.Pair and write.Pair
+type pair struct {
+	A, B []string
+}
+
+func (p *pair) LenA() int                                 { return len(p.A) }
+func (p *pair) LenB() int                                 { return len(p.B) }
+func (p *pair) Equal(ai, bi int) bool                     { return p.A[ai] == p.B[bi] }
+func (p *pair) WriteATo(w io.Writer, ai int) (int, error) { return w.Write([]byte(p.A[ai])) }
+func (p *pair) WriteBTo(w io.Writer, bi int) (int, error) { return w.Write([]byte(p.B[bi])) }
+
+// Run processes solutions with inputs
 func Run(t *testing.T, pattern string, solve func(in io.Reader, out io.Writer) error) {
 	files, err := filepath.Glob(pattern)
 	if err != nil {
@@ -81,11 +95,11 @@ func Run(t *testing.T, pattern string, solve func(in io.Reader, out io.Writer) e
 				t.Error(err)
 			}
 			got := splitLines(outBuf.String())
-			ab := diff.Strings(want, got)
-			e := diff.Myers(context.Background(), ab)
+			ab := &pair{A: want, B: got}
+			e := myers.Diff(context.Background(), ab)
 			if !e.IsIdentity() {
 				diffBuf := &bytes.Buffer{}
-				e.WriteUnified(diffBuf, ab, diff.Names("want", "got"), diff.TerminalColor())
+				write.Unified(e, diffBuf, ab, write.Names("want", "got"), write.TerminalColor())
 				s := diffBuf.String()
 				if strings.HasSuffix(s, "\n\x1b[0m") {
 					s = s[:len(s)-5] + "\x1b[0m"
